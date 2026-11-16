@@ -1,6 +1,8 @@
 "use client";
 
 import dynamic from "next/dynamic";
+import { UserButton } from "@clerk/nextjs";
+import RunHistory from "./RunHistory";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import CrossSection from "./CrossSection";
 import EnergyChart from "./EnergyChart";
@@ -176,12 +178,15 @@ export default function Simulator() {
           <p className="text-xs text-slate-400">Specific Energy Simulator</p>
         </div>
         <div className="flex items-center gap-3">
+          <UserButton />
           <span className="text-xs text-emerald-400">● SIMULATION ACTIVE</span>
           <button className="btn" onClick={() => setS(DEFAULT)}>Reset</button>
           <button className="btn" onClick={() => setAdvOpen((v) => !v)}>Settings</button>
           <button className="btn" onClick={() => setHelpOpen((v) => !v)} aria-expanded={helpOpen}>Help</button>
         </div>
       </header>
+
+      <RunHistory shape={s.shape} parameters={p} tolerance={s.tol} valid={r.ok} onRestore={(shape, parameters) => setS(prev => ({ ...prev, shape, ...parameters }))} />
 
       {helpOpen && (
         <section className="panel mb-3 grid gap-3 p-4 text-sm text-slate-300 md:grid-cols-2" aria-label="Help">
@@ -347,4 +352,4 @@ export default function Simulator() {
       </section>
     </div>
   );
-}
+      }
