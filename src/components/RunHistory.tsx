@@ -13,7 +13,7 @@ export default function RunHistory({ shape, parameters, tolerance, valid, onRest
   const [error, setError] = useState('');
   const [open, setOpen] = useState(false);
   const lock = useRef(false);
-  const pending = useRef<{ signature: string; id: string }>();
+  const pending = useRef<{ signature: string; id: string } | undefined>(undefined);
   const load = useCallback(async (signal?: AbortSignal) => {
     setLoading(true);
     try {
