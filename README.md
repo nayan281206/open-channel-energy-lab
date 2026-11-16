@@ -5,6 +5,9 @@ specific-energy curve, the results, the 2D cross-section and the 3D channel/wate
 
 ## Install & run
 
+For login, database and owner admin setup, follow [LOCAL_SETUP.md](LOCAL_SETUP.md) first. Environment credentials are required on this branch.
+
+
 ```bash
 npm install
 npm run dev     # http://localhost:3000
