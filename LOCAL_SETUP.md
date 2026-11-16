@@ -1,6 +1,6 @@
 # Local setup: Open Channel Energy Lab
 
-Use the `feature/auth-and-database` branch. It includes login, private saved runs and the owner-only admin dashboard. `main` and the existing deployment are separate and unchanged.
+Use the `feature/next15-upgrade` branch. It includes login, private saved runs and the owner-only admin dashboard. `main` and the existing deployment are separate and unchanged.
 
 ## 1. Install prerequisites and get the code
 
@@ -9,11 +9,11 @@ Install Git, Node.js 22 LTS (or a newer compatible LTS) and npm. Check `git --ve
 ```sh
 git clone https://github.com/nayan281206/open-channel-energy-lab.git
 cd open-channel-energy-lab
-git switch feature/auth-and-database
+git switch feature/next15-upgrade
 npm ci
 ```
 
-The repository is private. Sign into GitHub Desktop or your Git credential manager as an account with access. In GitHub Desktop, clone this repository, select `feature/auth-and-database` in Current Branch, then Repository > Open in Terminal. Run the same npm commands there. `npm ci` installs the exact lockfile; use `npm install` only when intentionally changing dependencies.
+The repository is private. Sign into GitHub Desktop or your Git credential manager as an account with access. In GitHub Desktop, clone this repository, select `feature/next15-upgrade` in Current Branch, then Repository > Open in Terminal. Run the same npm commands there. `npm ci` installs the exact lockfile; use `npm install` only when intentionally changing dependencies.
 
 ## 2. Create your private environment file
 
@@ -127,6 +127,6 @@ Stop the dev server before starting the production server; both default to port 
 - Port busy: stop the other server, or run `npm run dev -- -p 3001` and use that URL.
 - No runs: only successful explicit saves are recorded. A Clerk user can legitimately have no Postgres profile yet.
 - This remains a Clerk development instance. Configure a production Clerk instance/domain/OAuth credentials, matching Supabase provider and deployment environment variables before a launch.
-- The existing Next.js 14 dependency has known security advisories. A supported patched framework upgrade is a separate change required before public launch. Do not run `npm audit fix --force` without reviewing its major-version changes.
+- This branch uses Next.js 15.5.29 and Clerk 7.10.0 with React 18. Existing Next 14 / Clerk 6 installations cannot use the current sign-in service. Run `npm ci` after switching branches. Remaining transitive dependency advisories should be reviewed before a wider launch; do not run `npm audit fix --force` without reviewing major changes.
 - Free service quotas apply. Add rate limits, retention/deletion controls and a verified Clerk deletion webhook before wider use. Deleting a Clerk account does not automatically remove its database profile; deleting its `user_profiles` row administratively cascades its runs.
 - Users should be told the owner can inspect their saved activity and profile information. Do not store sensitive personal data in simulation fields.
