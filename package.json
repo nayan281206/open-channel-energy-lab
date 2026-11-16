@@ -10,11 +10,11 @@
     "test": "tsx --test tests/*.test.ts"
   },
   "dependencies": {
-    "@clerk/nextjs": "^6.39.9",
+    "@clerk/nextjs": "^7.10.0",
     "@react-three/drei": "^9.114.3",
     "@react-three/fiber": "^8.17.10",
     "@supabase/supabase-js": "^2.119.0",
-    "next": "^14.2.15",
+    "next": "^15.5.29",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "recharts": "^2.13.0",
