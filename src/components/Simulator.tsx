@@ -123,7 +123,7 @@ function calcLines(shape: ChannelShape, p: ChannelParameters, r: HydraulicResult
   return L;
 }
 
-export default function Simulator() {
+export default function Simulator({ isAdmin = false }: { isAdmin?: boolean }) {
   const [s, setS] = useState<SimState>(DEFAULT);
   const [mode, setMode] = useState<"3d" | "section">("3d");
   const [showDims, setShowDims] = useState(true);
@@ -179,6 +179,7 @@ export default function Simulator() {
         </div>
         <div className="flex items-center gap-3">
           <UserButton />
+          {isAdmin && <a href="/admin" className="btn">Admin</a>}
           <span className="text-xs text-emerald-400">● SIMULATION ACTIVE</span>
           <button className="btn" onClick={() => setS(DEFAULT)}>Reset</button>
           <button className="btn" onClick={() => setAdvOpen((v) => !v)}>Settings</button>
