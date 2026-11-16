@@ -2,12 +2,14 @@
 
 This branch adds Clerk authentication and a Supabase Postgres database. The simulator is protected by middleware and a server-side auth check. The API independently checks the session. There is no guest bypass.
 
+Full from-zero instructions, including admin setup: [LOCAL_SETUP.md](LOCAL_SETUP.md).
+
 ## Local setup
 
 1. Run `npm ci` (Node.js 22 or later recommended).
 2. Copy `.env.example` to `.env.local`.
 3. Fill `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` and `CLERK_SECRET_KEY` from your Clerk application. The secret key is server-only. Do not add a `NEXT_PUBLIC_` prefix to it.
-4. Fill `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` from the Supabase project. Do not use a service-role or secret database API key. All app database access uses the user's Clerk session and row-level security.
+4. Fill `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` from the Supabase project. Do not use a service-role or secret database API key. Regular-user database access uses the user's Clerk session and row-level security. Admin reads use a separate server-only secret client after exact ID authorization. See LOCAL_SETUP.md.
 5. Enable the native Supabase integration in Clerk. In Supabase Authentication > Sign In / Providers > Third-Party Auth, add Clerk with the corresponding Clerk instance domain. Do not create a legacy JWT template or share a Supabase JWT signing secret.
 6. Apply `supabase/migrations/202611160001_user_runs.sql` once to an empty project. It has already been applied to the lab project created for this branch. Do not run it a second time there.
 7. Run `npm run dev` and open `http://localhost:3000`. Sign up or sign in.
@@ -15,7 +17,7 @@ This branch adds Clerk authentication and a Supabase Postgres database. The simu
 
 The app uses explicit saves, not every slider movement. It sends only simulation inputs, solver tolerance and a retry ID. The server validates inputs and recomputes all stored outputs using the same hydraulics module as the simulator. Failed/invalid runs are not saved. Retries of a request use a per-user unique key to avoid duplicate records. Successful intentional repeat saves create new records.
 
-A profile is synced from the authenticated Clerk account when the lab notebook loads and again before a save. This is not a full Clerk user mirror: users who never load the app are not copied, and account deletion is not automatically synced. There are no teacher/admin dashboards or cross-user data exports in this change.
+A profile is synced from the authenticated Clerk account when the lab notebook loads and again before a save. This is not a full Clerk user mirror: users who never load the app are not copied, and account deletion is not automatically synced. The owner-only /admin dashboard now combines the full Clerk directory with saved usage. It requires ADMIN_USER_IDS and SUPABASE_SECRET_KEY, as described in LOCAL_SETUP.md.
 
 ## Tables
 
